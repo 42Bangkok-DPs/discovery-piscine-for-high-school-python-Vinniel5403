@@ -16,7 +16,7 @@ class Piece:
         elif self.name.lower() == "q":  # Queen
             return self.is_valid_queen_move(start, end, board)
         elif self.name.lower() == "k":  # King
-            return self.is_valid_king_move(start, end)
+            return self.is_valid_king_move(start, end, board)
         return False
 
     def is_valid_pawn_move(self, start, end, board, en_passant_target=None):
@@ -91,18 +91,16 @@ class Piece:
         x1, y1 = start
         x2, y2 = end
     
-    # Ensure the king moves only one square in any direction
+        # Ensure the king moves only one square in any direction
         if abs(x2 - x1) > 1 or abs(y2 - y1) > 1:
             return False
 
-    # Ensure the destination square is either empty or contains an opponent's piece
+        # Ensure the destination square is either empty or contains an opponent's piece
         target_piece = board[x2][y2]
         if target_piece is None or target_piece.color != self.color:
             return True
 
         return False
-
-
 
 
 class ChessBoard:
@@ -119,6 +117,7 @@ class ChessBoard:
         ]
         self.turn = "white"
         self.en_passant_target = None  # Tracks the square available for en passant capture
+        self.moves_history = []  # Initialize an empty list to store moves
 
     def print_board(self):
         print("  +" + "---+" * 8)
@@ -167,6 +166,9 @@ class ChessBoard:
             # Move the piece
             self.board[x2][y2] = self.board[x1][y1]
             self.board[x1][y1] = None
+
+            # Add move to history
+            self.moves_history.append(move)
 
             # Reset en passant target
             self.en_passant_target = None
