@@ -97,10 +97,9 @@ class Piece:
             return True
 
         return False
-
-
 class ChessBoard:
     def __init__(self):
+        #Board info
         self.board = [
             [Piece("r", "black", "Rook", "𝗥"), Piece("n", "black", "Knight", "𝗡"), Piece("b", "black", "Bishop", "𝗕"), Piece("q", "black", "Queen", "𝗤"), Piece("k", "black", "King", "𝗞"), Piece("b", "black", "Bishop", "𝗕"), Piece("n", "black", "Knight", "𝗡"), Piece("r", "black", "Rook", "𝗥")],
             [Piece("p", "black", "Pawn", "𝗣")] * 8,
@@ -116,8 +115,8 @@ class ChessBoard:
         self.moves_history = []
 
     def print_board(self):
+        #Board Printer
         print("  •" + "———•" * 8)
-
         for i, row in enumerate(self.board):
             row_label = 8 - i  # Row labels in reverse order (8 to 1)
             row_pieces = [str(piece.display_name) if piece else " " for piece in row]
@@ -125,8 +124,10 @@ class ChessBoard:
             print("  •" + "———•" * 8)
 
         print("    a   b   c   d   e   f   g   h".upper())
+        print("  [       can Reset & Stop        ]")
 
     def is_valid_move(self, start, end):
+        #Basic move rule
         x1, y1 = start
         piece = self.board[x1][y1]
 
@@ -139,12 +140,13 @@ class ChessBoard:
             return False
 
         if not piece.is_valid_move(start, end, self.board, self.en_passant_target):
-            print(f"--------Invalid move for {piece.realname} from {chr(y1 + ord('a'))}{8 - x1} to {chr(y2 + ord('a'))}{8 - x2}--------")
+            print(f"--------Invalid move for {piece.realname} from {chr(y1 + ord('a'))}--------")
             return False
 
         return True
 
     def move_piece(self, start, end, move):
+        #move function
         x1, y1 = start
         x2, y2 = end
         piece = self.board[x1][y1]
@@ -169,7 +171,8 @@ def main():
     board = ChessBoard()
     while True:
         board.print_board()
-        move = input(f"{board.turn}'s move: ").lower().strip()
+        move = input(f"{board.turn} to move: ").lower().strip()
+        
 
         if move.lower() == "stop":
             # Print the game history
@@ -196,8 +199,9 @@ def main():
             x1, y1 = 8 - int(start_pos[1]), ord(start_pos[0]) - ord('a')
             x2, y2 = 8 - int(end_pos[1]), ord(end_pos[0]) - ord('a')
             board.move_piece((x1, y1), (x2, y2), move)
+            
         except (ValueError, IndexError):
-            print("Invalid move format. Please use the format 'e2 e4'.")
+            print("Invalid move format.")
 
 
 if __name__ == "__main__":

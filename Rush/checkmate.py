@@ -64,9 +64,9 @@ def checkmate(board):
 
     def is_checked_by_pawn(board, kr, kc):
         # Pawns attack diagonally (one step forward)
-        if kr - 1 >= 0 and kc - 1 >= 0 and board[kr - 1][kc - 1] == 'P':
+        if kr - 1 >= 0 and kc - 1 >= 0 and board[kr + 1][kc + 1] == 'P':
             return True
-        if kr - 1 >= 0 and kc + 1 < len(board[0]) and board[kr - 1][kc + 1] == 'P':
+        if kr - 1 >= 0 and kc + 1 < len(board[0]) and board[kr + 1][kc - 1] == 'P':
             return True
         return False
 
